@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body class="container-fluid">
+<div class="row">
+    <div class="col-md-12">
+        <a type="button" class="btn" href="/public/index/student/add.html">新增数据</a>
+        <a type="button" class="btn col-md-offset-11" href="/public/index/login/loginOut.html" target="_top">退出</a>
+        <table class="table table-hover table-bordered">
+            <tr class="info">
+                <th>ID</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>性别</th>
+                <th>操作</th>
+            </tr>
+            {volist name="students" id="student"}
+            <tr>
+
+                <td>{$student['id']}</td>
+                <td>{$student['name']}</td>
+                <td>{$student['age']}</td>
+                <td>
+                    {eq name='student["sex"]' value='1'}男{else/}女{/eq}
+                    {if condition="$student['sex']==1"}男{else/}女{/if}
+                    {if condition="$student['sex'] eq 1"}男{else/}女{/if}
+                </td>
+                <td>
+                    <a type="button" class="btn btn-primary" href="/public/index/student/edit/id/{$student['id']}.html">修改</a>
+                    <a type="button" class="btn btn-danger delete" data-toggle="modal" data-target="#myModal" deleteId="{$student['id']}">删除</a>
+                </td>
+                <!--<td>{$student->getData('id')}</td>-->
+                <!--<td>{$student->getData('name')}</td>-->
+                <!--<td>{$student->getData('age')}</td>-->
+                <!--<td>{$student->getData('sex')}</td>-->
+            </tr>
+            {/volist}
+        </table>
+    </div>
+</div>
+<!--<nav aria-label="Page navigation">-->
+    <!--<div class="text-center">-->
+        <!--<ul class="pagination" style="text-align: center">-->
+            <!--<li>-->
+                <!--<a href="#" aria-label="Previous">-->
+                    <!--<span aria-hidden="true">&laquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li class="active"><a href="#">1</a></li>-->
+            <!--<li><a href="#">2</a></li>-->
+            <!--<li><a href="#">3</a></li>-->
+            <!--<li><a href="#">4</a></li>-->
+            <!--<li><a href="#">5</a></li>-->
+            <!--<li>-->
+                <!--<a href="#" aria-label="Next">-->
+                    <!--<span aria-hidden="true">&raquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</nav>-->
+<script>
+
+</script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">是否删除?</h4>
+            </div>
+            <!--<div class="modal-body">-->
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+                    <a type="button" id="delete" href="/public/index/student/delete.html" class="btn btn-primary">是</a>
+                    <!--</div>-->
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-4 col-md-offset-4">{$students->render()}</div>
+最后一页:
+{$students->lastPage()}
+当前页:
+{$students->currentPage()}
+每页数量:
+{$students->listRows()}
+合计:
+{$students->total()}
+
+<!--<br>-->
+<!--<p class="pass-form-item">-->
+    <!--<label class="pass-label">验证码</label>-->
+    <!--<input type="text" name="verifyCode" class="pass-text-input " placeholder="请输入验证码">-->
+<!--<div>{:captcha_img()}</div>-->
+<!--</p>-->
+<!--<div>{:captcha_img()}</div>-->
+<!--<div><img src="{:captcha_src()}" alt="captcha" /></div>-->
+<!--{:var_dump($students)}-->
+
+<div style="display:none;position: fixed;bottom: 0;right: 0;" class="col-md-4 alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>{$msg}</strong>
+</div>
+<script>
+    $(function () {
+        var msg="<?php echo $msg;?>";
+        if(msg){
+            // alert(arr);
+            $(".alert").fadeIn();
+            var timeout=setTimeout(function () {
+                $(".alert").fadeOut();
+            }, 2000);
+        }
+        console.log(msg);
+        $('.delete').click(function () {
+            $(this).attr('deleteId');
+            console.log($(this));
+            deletes($(this).attr('deleteId'))
+        });
+        var deletes= function (deleteId){
+            $('#delete').click(function () {
+                console.log($(this).attr('href'));
+                $(this).attr('href',$(this).attr('href')+'?deleteId='+deleteId);
+            })
+        }
+    });
+</script>
+</body>
+</html>
