@@ -8,9 +8,9 @@ class IndexController extends CommonController
 {
     public function index()
     {
-//        $htmls=$this->fetch();
-//        return $htmls;
-        echo 'sdfff';
+        $htmls=$this->fetch();
+        return $htmls;
+//        echo 'sdfff';
     }
     public function captcha()
     {
